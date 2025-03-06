@@ -1,7 +1,11 @@
 package com.notsruht.taf.pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.notsruht.taf.ui.pages.BasePageObject;
 import com.notsruht.taf.ui.pages.TAFPageObject;
@@ -33,8 +37,8 @@ public class ClickWebElementPageObject extends BasePageObject {
 
 	public Boolean clickButtonSuccess() {
 		webElement.click();
-		
-		return BUTTON_SUCCESS_PAGE_TITLE.equals(getDriver().getTitle());
+
+		return new WebDriverWait(getDriver(), Duration.ofSeconds(30l)).until(ExpectedConditions.titleIs(BUTTON_SUCCESS_PAGE_TITLE));		
 	}
 	
 	public void openUltimateQA() {

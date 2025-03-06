@@ -12,6 +12,12 @@ plugins {
     id "org.owasp.dependencycheck" version "6.1.6"
 }
 
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
 repositories {
 	mavenCentral()
 }
@@ -44,4 +50,18 @@ dependencies {
 sourceSets {
     test.resources.srcDirs = ['src/test/resources']
 }
+
+// The cucumber task allows us run the tests from the command line and to pass the testautomationframework and cucumber properties through the System properties using -D
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+        	systemProperties System.getProperties()
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            //classpath.each { println it}
+        }
+    }
+}
+
 version = '0.0.1'
